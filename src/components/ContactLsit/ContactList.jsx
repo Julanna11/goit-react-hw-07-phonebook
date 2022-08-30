@@ -36,3 +36,8 @@ export default function ContactList() {
     </List>
   );
 }
+ContactListItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+};

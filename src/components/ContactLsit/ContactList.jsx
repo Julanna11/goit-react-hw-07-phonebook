@@ -2,21 +2,16 @@ import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 import { List } from './ContactList.styled';
 import { useSelector } from 'react-redux';
 import { getFilter } from 'redux/ContactSlice';
-import {
-  useGetContactsQuery,
-  useDeleteContactMutation,
-} from 'redux/ContactsApi';
+import { useGetContactsQuery } from 'redux/ContactsApi';
 
 export default function ContactList() {
   const { data = [] } = useGetContactsQuery();
-  const { filter } = useSelector(state => getFilter(state));
-  const [deleteContact] = useDeleteContactMutation();
-
-  const removeContact = contactId => deleteContact(contactId);
+  const filterValue = useSelector(getFilter);
 
   const getFilteredContacts = () => {
+    const normalValue = filterValue.toLowerCase().trim();
     return data.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+      contact.name.toLowerCase().includes(normalValue)
     );
   };
 
@@ -29,15 +24,9 @@ export default function ContactList() {
             contactId={id}
             name={name}
             number={phone}
-            deleteContact={removeContact}
           ></ContactListItem>
         );
       })}
     </List>
   );
 }
-ContactListItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-};

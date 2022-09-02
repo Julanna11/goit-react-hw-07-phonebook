@@ -1,12 +1,13 @@
 import { FilterContainer, Label, Span } from './Filter.styled';
 import { Input } from 'components/ContactForm/ContactForm.styled';
-import { changeFilter } from 'redux/ContactSlice';
-import { useDispatch } from 'react-redux';
+import { changeFilter, getFilter } from 'redux/ContactSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 export const Filter = () => {
+  const filterValue = useSelector(getFilter);
   const dispatch = useDispatch();
 
-  const setFilterContact = event =>
-    dispatch(changeFilter(event.currentTarget.value));
+  const setFilterContact = event => dispatch(changeFilter(event.target.value));
 
   return (
     <FilterContainer>
@@ -15,8 +16,9 @@ export const Filter = () => {
         <Input
           name="filter"
           type="text"
+          value={filterValue}
           onChange={setFilterContact}
-          required={false}
+          placeholder="Name Surname"
         />
       </Label>
     </FilterContainer>

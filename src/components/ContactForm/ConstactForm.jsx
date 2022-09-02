@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { Bars } from 'react-loader-spinner';
 import { Input } from './ContactForm.styled';
 import { Button } from 'utilities/button.styled';
 import {
@@ -12,7 +13,7 @@ export const Form = () => {
   const [phone, setPhone] = useState('');
 
   const { data: contacts } = useGetContactsQuery();
-  const [createContact] = useCreateContactMutation();
+  const [createContact, { isLoading: isAdding }] = useCreateContactMutation();
 
   const changeName = evt => setName(evt.target.value);
   const changeNumber = evt => setPhone(evt.target.value);
@@ -57,7 +58,13 @@ export const Form = () => {
         onChange={changeNumber}
         required
       />
-      <Button type="submit">Add Contact</Button>
+      <Button type="submit">
+        {isAdding ? (
+          <Bars height="18" width="18" color="#4fa94d" />
+        ) : (
+          'Add contact'
+        )}
+      </Button>
     </form>
   );
 };
